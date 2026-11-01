@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+    <meta name="referrer" content="no-referrer">
+    <meta name="robots" content="noindex, nofollow">
+
+    <title>
+        Регистрация — Хочу ресницы
+    </title>
+
+    <style>
+        :root {
+            --primary: #667eea;
+            --primary-hover: #5065cf;
+            --background: #f4f6fa;
+            --surface: #ffffff;
+            --text: #243047;
+            --muted: #596579;
+            --border: #d7deea;
+            --danger: #a51d2d;
+            --success: #176338;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        [hidden] {
+            display: none !important;
+        }
+
+        body {
+            min-height: 100vh;
+            margin: 0;
+            padding: 32px 16px;
+            display: grid;
+            place-items: center;
+            background:
+                radial-gradient(
+                    circle at top left,
+                    #e1e5ff,
+                    transparent 55%
+                ),
+                var(--background);
+            color: var(--text);
+            font-family: Arial, Helvetica, sans-serif;
+            line-height: 1.6;
+        }
+
+        main {
+            width: 100%;
+            max-width: 480px;
+            padding: 32px;
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            background: var(--surface);
+            box-shadow: 0 16px 48px rgba(30, 45, 80, 0.09);
+        }
+
+        h1 {
+            margin: 0 0 8px;
+            font-size: 1.8rem;
+            line-height: 1.25;
+        }
+
+        .company {
+            margin: 0 0 14px;
+            color: var(--primary);
+            font-weight: 700;
+            overflow-wrap: anywhere;
+        }
+
+        .description,
+        .hint {
+            color: var(--muted);
+        }
+
+        .description {
+            margin: 0 0 24px;
+        }
+
+        .hint {
+            margin: 6px 0 0;
+            font-size: 0.85rem;
+        }
+
+        fieldset {
+            min-width: 0;
+            margin: 0;
+            padding: 0;
+            border: 0;
+        }
+
+        .field {
+            margin-bottom: 18px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: 600;
+        }
+
+        input {
+            width: 100%;
+            min-height: 46px;
+            padding: 11px 12px;
+            border: 1px solid var(--border);
+            border-radius: 9px;
+            background: #fff;
+            color: var(--text);
+            font: inherit;
+        }
+
+        button,
+        .button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 46px;
+            padding: 11px 18px;
+            border: 0;
+            border-radius: 9px;
+            background: var(--primary);
+            color: #fff;
+            font: inherit;
+            font-weight: 600;
+            text-align: center;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        button:hover:not(:disabled),
+        .button:hover {
+            background: var(--primary-hover);
+        }
+
+        button:disabled {
+            opacity: 0.65;
+            cursor: not-allowed;
+        }
+
+        .full-width {
+            width: 100%;
+        }
+
+        :focus-visible {
+            outline: 3px solid #334ac5;
+            outline-offset: 3px;
+        }
+
+        .message {
+            margin-top: 18px;
+            padding: 12px 14px;
+            border: 1px solid var(--border);
+            border-radius: 9px;
+            overflow-wrap: anywhere;
+        }
+
+        .message.error {
+            color: var(--danger);
+            background: #fff2f3;
+            border-color: #efbac2;
+        }
+
+        .message.success {
+            color: var(--success);
+            background: #eef9f1;
+            border-color: #b8dfc4;
+        }
+
+        .links {
+            margin-top: 24px;
+            padding-top: 18px;
+            border-top: 1px solid var(--border);
+            text-align: center;
+        }
+
+        .links p {
+            margin: 0;
+        }
+
+        a {
+            color: #354db8;
+        }
+
+        #successActions {
+            margin-top: 16px;
+        }
+
+        noscript p {
+            color: var(--danger);
+        }
+
+        @media (max-width: 480px) {
+            body {
+                padding: 20px 12px;
+                align-items: start;
+            }
+
+            main {
+                padding: 26px 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <main aria-labelledby="pageTitle">
+        <p class="company">
+            Хочу ресницы
+        </p>
+
+        <h1 id="pageTitle">Регистрация клиента</h1>
+
+        <p class="description">
+            Создайте аккаунт, чтобы записываться на услуги
+            и просматривать свои записи.
+        </p>
+
+        <noscript>
+            <p>
+                Для регистрации включите JavaScript
+                и обновите страницу.
+            </p>
+        </noscript>
+
+        <section id="serverNotice" hidden>
+            <p>
+                Регистрация выполняется на сервере сервиса.
+                Перейдите на страницу регистрации, чтобы продолжить.
+            </p>
+
+            <a
+                id="serverRegisterLink"
+                class="button full-width"
+            >
+                Перейти к регистрации
+            </a>
+        </section>
+
+        <form id="registerForm" hidden>
+            <fieldset id="registerFields" disabled>
+                <div class="field">
+                    <label for="email">Email</label>
+
+                    <input
+                        id="email"
+                        name="email"
+                        type="email"
+                        autocomplete="email"
+                        inputmode="email"
+                        maxlength="320"
+                        required
+                    >
+                </div>
+
+                <div class="field">
+                    <label for="password">Пароль</label>
+
+                    <input
+                        id="password"
+                        name="password"
+                        type="password"
+                        autocomplete="new-password"
+                        aria-describedby="passwordHint"
+                        required
+                    >
+
+                    <p class="hint" id="passwordHint">
+                        От 6 до 200 символов.
+                        Пробелы считаются частью пароля.
+                        Используйте уникальный пароль.
+                    </p>
+                </div>
+
+                <div class="field">
+                    <label for="passwordConfirm">
+                        Повторите пароль
+                    </label>
+
+                    <input
+                        id="passwordConfirm"
+                        name="password_confirm"
+                        type="password"
+                        autocomplete="new-password"
+                        required
+                    >
+                </div>
+
+                <button
+                    id="submitButton"
+                    class="full-width"
+                    type="submit"
+                >
+                    Создать аккаунт
+                </button>
+            </fieldset>
+        </form>
+
+        <div
+            id="message"
+            class="message"
+            role="status"
+            aria-live="polite"
+            aria-atomic="true"
+            hidden
+        ></div>
+
+        <div id="successActions" hidden>
+            <a
+                id="successLoginLink"
+                class="button full-width"
+            >
+                Войти в аккаунт
+            </a>
+        </div>
+
+        <nav
+            id="navigation"
+            class="links"
+            aria-label="Навигация регистрации"
+            hidden
+        >
+            <p>
+                Уже есть аккаунт?
+                <a id="loginLink">Войти</a>
+            </p>
+        </nav>
+    </main>
+
+    <script>
+        "use strict";
+
+        const SITE_ID = "razrabotka-22";
+        const SERVER_URL = "https://api.generator-beloretsk.ru";
+
+        const form = document.getElementById("registerForm");
+        const fields = document.getElementById("registerFields");
+        const emailInput = document.getElementById("email");
+        const passwordInput = document.getElementById("password");
+
+        const confirmationInput =
+            document.getElementById("passwordConfirm");
+
+        const submitButton =
+            document.getElementById("submitButton");
+
+        const messageElement =
+            document.getElementById("message");
+
+        let apiOrigin = "";
+        let submitting = false;
+        let registered = false;
+
+        function showMessage(text, type = "error") {
+            messageElement.textContent = text;
+            messageElement.className = `message ${type}`;
+            messageElement.hidden = false;
+        }
+
+        function hideMessage() {
+            messageElement.textContent = "";
+            messageElement.hidden = true;
+        }
+
+        function initialize() {
+            try {
+                if (
+                    typeof SITE_ID !== "string"
+                    || !/^[A-Za-z0-9][A-Za-z0-9_-]{0,99}$/.test(SITE_ID)
+                ) {
+                    throw new Error(
+                        "Некорректный идентификатор сайта."
+                    );
+                }
+
+                if (
+                    typeof SERVER_URL !== "string"
+                    || !SERVER_URL.trim()
+                ) {
+                    throw new Error(
+                        "Не настроен адрес сервера."
+                    );
+                }
+
+                const base = new URL(SERVER_URL);
+
+                if (
+                    !["http:", "https:"].includes(base.protocol)
+                    || base.username
+                    || base.password
+                    || base.search
+                    || base.hash
+                    || base.pathname !== "/"
+                ) {
+                    throw new Error(
+                        "Некорректный адрес сервера."
+                    );
+                }
+
+                apiOrigin = base.origin;
+
+                const loginUrl = new URL("/login", apiOrigin);
+                loginUrl.searchParams.set("site_id", SITE_ID);
+
+                const registerUrl = new URL("/register", apiOrigin);
+                registerUrl.searchParams.set("site_id", SITE_ID);
+
+                document.getElementById("loginLink").href =
+                    loginUrl.href;
+
+                document.getElementById("successLoginLink").href =
+                    loginUrl.href;
+
+                document.getElementById("navigation").hidden = false;
+
+                if (window.location.origin !== apiOrigin) {
+                    document.getElementById(
+                        "serverRegisterLink"
+                    ).href = registerUrl.href;
+
+                    document.getElementById(
+                        "serverNotice"
+                    ).hidden = false;
+
+                    return;
+                }
+
+                form.hidden = false;
+                fields.disabled = false;
+
+            } catch (error) {
+                showMessage(
+                    error.message
+                    || "Не удалось подготовить страницу регистрации."
+                );
+            }
+        }
+
+        function validatePasswords() {
+            confirmationInput.setCustomValidity("");
+            passwordInput.setCustomValidity("");
+
+            const password = passwordInput.value;
+            const confirmation = confirmationInput.value;
+
+            // Подсчёт Unicode-кодовых точек, как len() строки в Python.
+            const length = Array.from(password).length;
+
+            if (length < 6 || length > 200) {
+                passwordInput.setCustomValidity(
+                    "Пароль должен содержать от 6 до 200 символов."
+                );
+            }
+
+            if (password !== confirmation) {
+                confirmationInput.setCustomValidity(
+                    "Пароли не совпадают."
+                );
+            }
+
+            return form.reportValidity();
+        }
+
+        function responseError(data, status) {
+            if (typeof data?.error === "string") {
+                const fieldNames = {
+                    "body.email": "email",
+                    "body.password": "пароль"
+                };
+
+                const fieldList = Array.isArray(data.fields)
+                    ? data.fields
+                        .map((name) => fieldNames[name])
+                        .filter(Boolean)
+                    : [];
+
+                return fieldList.length
+                    ? `${data.error}: ${fieldList.join(", ")}.`
+                    : data.error;
+            }
+
+            if (typeof data?.detail === "string") {
+                return data.detail;
+            }
+
+            return `Сервер вернул ошибку HTTP ${status}.`;
+        }
+
+        async function register(event) {
+            event.preventDefault();
+
+            if (submitting || registered || !apiOrigin) {
+                return;
+            }
+
+            if (window.location.origin !== apiOrigin) {
+                showMessage(
+                    "Откройте страницу регистрации на сервере."
+                );
+                return;
+            }
+
+            hideMessage();
+            emailInput.value = emailInput.value.trim();
+
+            if (!validatePasswords()) {
+                return;
+            }
+
+            const payload = {
+                email: emailInput.value,
+                password: passwordInput.value
+            };
+
+            const controller = new AbortController();
+
+            const timer = window.setTimeout(
+                () => controller.abort(),
+                30000
+            );
+
+            submitting = true;
+            fields.disabled = true;
+            form.setAttribute("aria-busy", "true");
+            submitButton.textContent = "Создание аккаунта…";
+
+            try {
+                const response = await fetch(
+                    new URL(
+                        `/api/register-client/${encodeURIComponent(SITE_ID)}`,
+                        apiOrigin
+                    ),
+                    {
+                        method: "POST",
+                        credentials: "include",
+                        cache: "no-store",
+                        headers: {
+                            "Content-Type": "application/json",
+                            "Accept": "application/json"
+                        },
+                        body: JSON.stringify(payload),
+                        signal: controller.signal
+                    }
+                );
+
+                let data;
+
+                try {
+                    data = await response.json();
+                } catch (error) {
+                    throw new Error(
+                        "Не удалось прочитать ответ сервера. "
+                        + "Аккаунт мог быть создан. "
+                        + "Попробуйте войти перед повторной регистрацией."
+                    );
+                }
+
+                if (!response.ok || data?.ok !== true) {
+                    throw new Error(
+                        responseError(data, response.status)
+                    );
+                }
+
+                registered = true;
+
+                form.reset();
+                form.hidden = true;
+
+                showMessage(
+                    "Аккаунт создан. Теперь войдите с вашим email "
+                    + "и паролем. Подтверждение почты на этом этапе "
+                    + "не выполняется.",
+                    "success"
+                );
+
+                document.getElementById(
+                    "successActions"
+                ).hidden = false;
+
+                document.getElementById(
+                    "successLoginLink"
+                ).focus();
+
+            } catch (error) {
+                if (error.name === "AbortError") {
+                    showMessage(
+                        "Время ожидания истекло. Сервер мог успеть "
+                        + "создать аккаунт. Попробуйте войти перед "
+                        + "повторной регистрацией."
+                    );
+                } else if (error instanceof TypeError) {
+                    showMessage(
+                        "Не удалось получить ответ сервера. "
+                        + "Проверьте соединение. Если запрос уже был "
+                        + "отправлен, попробуйте войти перед повтором."
+                    );
+                } else {
+                    showMessage(
+                        error.message
+                        || "Не удалось зарегистрироваться."
+                    );
+                }
+            } finally {
+                window.clearTimeout(timer);
+
+                submitting = false;
+                fields.disabled = registered;
+                form.setAttribute("aria-busy", "false");
+                submitButton.textContent = "Создать аккаунт";
+
+                // Пароль не сохраняется в localStorage или cookies.
+                payload.password = "";
+                passwordInput.value = "";
+                confirmationInput.value = "";
+            }
+        }
+
+        passwordInput.addEventListener("input", () => {
+            passwordInput.setCustomValidity("");
+            confirmationInput.setCustomValidity("");
+        });
+
+        confirmationInput.addEventListener("input", () => {
+            confirmationInput.setCustomValidity("");
+        });
+
+        form.addEventListener("submit", register);
+
+        initialize();
+    </script>
+</body>
+</html>

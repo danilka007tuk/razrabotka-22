@@ -1,0 +1,814 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="description" content="" />
+<title>Сайт</title>
+
+<style>
+    :root {
+        --primary: #667eea;
+        --secondary: #764ba2;
+        --bg: #f4f6fa;
+        --text: #2c3e50;
+        --accent: #667eea;
+        --radius: 18px;
+    }
+
+    * { box-sizing: border-box; }
+    [hidden] { display: none !important; }
+
+    body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--text);
+        font: 16px/1.65 Arial, Helvetica, sans-serif;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    button, input, textarea, select { font: inherit; }
+    button { cursor: pointer; }
+    button:disabled { opacity: .55; cursor: not-allowed; }
+
+    :focus-visible { outline: 3px solid var(--accent); outline-offset: 4px; }
+
+    .header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 18px;
+        padding: 18px 20px;
+        background: #fff;
+        color: #243047;
+        border-bottom: 1px solid #dce1ea;
+    }
+
+    .brand {
+        font-size: 1.15rem;
+        font-weight: 700;
+        text-decoration: none;
+        overflow-wrap: anywhere;
+    }
+
+    nav, .actions {
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 12px;
+    }
+
+    .container {
+        width: min(1160px, 100%);
+        margin: auto;
+        padding: 0 20px;
+    }
+
+    .hero { padding: 68px 0; }
+
+    .hero-grid {
+        display: grid;
+        grid-template-columns: 1.15fr 1fr;
+        gap: 36px;
+        align-items: center;
+    }
+
+    .hero-grid.no-image { grid-template-columns: 1fr; }
+
+    h1 {
+        margin: 0 0 20px;
+        font-size: clamp(2rem, 5vw, 3.8rem);
+        line-height: 1.1;
+        overflow-wrap: anywhere;
+    }
+
+    h2 { margin: 0 0 22px; font-size: 1.8rem; }
+    h3 { margin: 0 0 10px; font-size: 1.15rem; }
+    p { margin: 0 0 16px; }
+
+    .hero-image {
+        width: 100%;
+        max-height: 440px;
+        object-fit: cover;
+        border-radius: var(--radius);
+    }
+
+    .lead { font-size: 1.15rem; }
+    .section { padding: 42px 0; scroll-margin-top: 20px; }
+
+    .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        gap: 20px;
+    }
+
+    .card, .booking {
+        padding: 24px;
+        border: 1px solid #dce1ea;
+        border-radius: var(--radius);
+        background: #fff;
+        color: #243047;
+    }
+
+    .card img {
+        display: block;
+        width: 100%;
+        height: 210px;
+        margin-bottom: 18px;
+        object-fit: cover;
+        border-radius: 10px;
+    }
+
+    .price { font-size: 1.2rem; font-weight: 700; }
+    .muted, .hint { color: #58657a; }
+    .hint { font-size: .9rem; }
+
+    .button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 44px;
+        padding: 11px 18px;
+        border: 1px solid #243047;
+        border-radius: 9px;
+        background: #243047;
+        color: #fff;
+        font: inherit;
+        text-decoration: none;
+    }
+
+    .button.secondary {
+        background: #fff;
+        color: #243047;
+    }
+
+    .button:hover:not(:disabled) { filter: brightness(.9); }
+
+    .booking { max-width: 850px; }
+
+    fieldset { min-width: 0; padding: 0; margin: 0; border: 0; }
+
+    .form-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 16px;
+    }
+
+    label { display: block; margin-bottom: 18px; }
+    label > span { display: block; margin-bottom: 6px; }
+
+    input, select, textarea {
+        width: 100%;
+        min-height: 44px;
+        padding: 10px 12px;
+        border: 1px solid #aeb9cc;
+        border-radius: 8px;
+        background: #fff;
+        color: #243047;
+    }
+
+    textarea { resize: vertical; }
+    input[readonly] { background: #eef1f7; }
+
+    .slots {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin: 16px 0;
+    }
+
+    .slot {
+        padding: 10px 16px;
+        border: 1px solid #8995aa;
+        border-radius: 8px;
+        background: #fff;
+        color: #243047;
+    }
+
+    .slot[aria-pressed="true"] {
+        background: #243047;
+        color: #fff;
+    }
+
+    .status {
+        margin: 16px 0;
+        white-space: pre-wrap;
+        overflow-wrap: anywhere;
+    }
+
+    .error { color: #a51d2d; }
+    .success { color: #176338; }
+
+    details {
+        padding: 16px 0;
+        border-bottom: 1px solid #dce1ea;
+    }
+
+    summary { cursor: pointer; font-weight: 700; }
+    details p { margin-top: 12px; }
+
+    footer {
+        margin-top: 40px;
+        padding: 30px 20px;
+        background: #243047;
+        color: #fff;
+        text-align: center;
+    }
+
+    /* Темы */
+    body[data-theme="modern"] { /* базовая */ }
+
+    body[data-theme="light"] {
+        --bg: #f7f9fc;
+        --text: #1a1a1a;
+        --secondary: #e8ecf5;
+    }
+    body[data-theme="light"] .hero { background: #f5f7fb; }
+
+    body[data-theme="bold"] {
+        --bg: #0e0e0e;
+        --text: #ffffff;
+        --primary: #ffcc00;
+        --accent: #ffcc00;
+    }
+    body[data-theme="bold"] .header,
+    body[data-theme="bold"] footer { background: #000; color: #fff; }
+    body[data-theme="bold"] .card,
+    body[data-theme="bold"] .booking { border: 3px solid #243047; }
+
+    body[data-theme="strict"] {
+        --radius: 0;
+        --bg: #ffffff;
+        --text: #1a1a1a;
+        --primary: #2c3e50;
+        --accent: #2c3e50;
+    }
+
+    @media (max-width: 720px) {
+        .hero-grid, .form-grid { grid-template-columns: 1fr; }
+        .hero { padding: 40px 0; }
+        .card, .booking { padding: 20px 16px; }
+        .section { padding: 28px 0; }
+    }
+</style>
+</head>
+
+<body data-theme="modern">
+<header class="header">
+    <a class="brand" href="#">
+        Хочу ресницы
+    </a>
+
+    <nav aria-label="Навигация">
+        
+        <a href="#booking" class="button secondary">Забронировать</a>
+        
+        
+            
+                
+                <a href="#services">Услуги</a>
+                
+            
+                
+            
+                
+            
+                
+                <a href="#contacts">Контакты</a>
+                
+            
+                
+                <a href="#booking">Запись на прием</a>
+                
+            
+        
+        <a id="accountLink" href="#" target="_blank" rel="noopener noreferrer" hidden>Мои записи</a>
+    </nav>
+</header>
+
+<main>
+    
+    <section class="hero">
+        <div class="container">
+            <div class="hero-grid no-image">
+                <div>
+                    <h1>Хочу ресницы</h1>
+
+                    
+
+                    
+
+                    
+                    <a class="button" href="#booking">
+                        Записаться
+                    </a>
+                    
+                </div>
+
+                
+            </div>
+        </div>
+    </section>
+    
+
+    <div class="container">
+        
+
+        
+
+        
+        <section class="section" id="services">
+            <h2>Услуги</h2>
+            <div class="grid">
+                
+                <article class="card">
+                    
+                    <h3>Стрижка и укладка</h3>
+                    <p>Профессиональные стрижки и укладки для любых типов волос.</p>
+                    
+                    
+                </article>
+                
+                <article class="card">
+                    
+                    <h3>Маникюр и педикюр</h3>
+                    <p>Услуги по уходу за ногтями и кожей рук и ног.</p>
+                    
+                    
+                </article>
+                
+                <article class="card">
+                    
+                    <h3>Окрашивание волос</h3>
+                    <p>Разнообразные техники окрашивания для создания уникального образа.</p>
+                    
+                    
+                </article>
+                
+                <article class="card">
+                    
+                    <h3>Брови и ресницы</h3>
+                    <p>Коррекция и окрашивание бровей, наращивание и ламинирование ресниц.</p>
+                    
+                    
+                </article>
+                
+                <article class="card">
+                    
+                    <h3>Уходовые процедуры и SPA</h3>
+                    <p>Расслабляющие и восстанавливающие процедуры для кожи.</p>
+                    
+                    
+                </article>
+                
+                <article class="card">
+                    
+                    <h3>Массаж</h3>
+                    <p>Разнообразные виды массажа для релаксации и оздоровления.</p>
+                    
+                    
+                </article>
+                
+            </div>
+        </section>
+        
+
+        
+
+        
+
+        
+
+        
+
+        
+
+        
+        <section class="section" id="contacts">
+            <h2>Контакты</h2>
+            <div class="card">
+                <h3>Хочу ресницы</h3>
+                
+                
+                <p>Часы работы: 10:00-20:00</p>
+            </div>
+        </section>
+        
+
+        
+        <section class="section" id="booking">
+            <h2>Запись на услугу</h2>
+
+            <div class="booking">
+                <noscript>
+                    <p>Для онлайн-записи включите JavaScript.</p>
+                </noscript>
+
+                <div class="actions">
+                    <a id="loginLink" class="button secondary" target="_blank" rel="noopener noreferrer" hidden>Войти</a>
+                    <a id="registerLink" class="button secondary" target="_blank" rel="noopener noreferrer" hidden>Зарегистрироваться</a>
+                    <button id="checkProfile" class="button secondary" type="button" disabled>Проверить вход</button>
+                </div>
+
+                <p class="hint">
+                    Вход откроется в отдельной вкладке. После входа
+                    вернитесь сюда и нажмите «Проверить вход».
+                </p>
+
+                <p id="profileStatus" class="status" role="status" aria-live="polite">
+                    Подготовка формы…
+                </p>
+
+                <form id="bookingForm" novalidate>
+                    <fieldset id="bookingFields" disabled>
+                        <div class="form-grid">
+                            <label>
+                                <span>Мастер</span>
+                                <select id="master" required>
+                                    <option value="">Загрузка…</option>
+                                </select>
+                            </label>
+
+                            <label>
+                                <span>Услуга</span>
+                                <select id="service" required>
+                                    <option value="">Сначала выберите мастера</option>
+                                </select>
+                            </label>
+                        </div>
+
+                        <label>
+                            <span>Дата посещения</span>
+                            <input id="date" type="date" required>
+                        </label>
+
+                        <button id="refreshSlots" class="button secondary" type="button">Показать свободное время</button>
+
+                        <p id="availabilityStatus" class="status" role="status" aria-live="polite">Выберите мастера и дату.</p>
+
+                        <div id="slots" class="slots" role="group" aria-label="Время записи"></div>
+
+                        <p id="selectedSlot" class="hint"></p>
+
+                        <div class="form-grid">
+                            <label>
+                                <span>Ваше имя</span>
+                                <input id="name" autocomplete="name" maxlength="500" required>
+                            </label>
+
+                            <label>
+                                <span>Телефон</span>
+                                <input id="phone" type="tel" autocomplete="tel" minlength="3" maxlength="50" required>
+                            </label>
+                        </div>
+
+                        <label>
+                            <span>Email аккаунта</span>
+                            <input id="email" type="email" readonly>
+                        </label>
+
+                        <label>
+                            <span>Комментарий</span>
+                            <textarea id="comment" rows="3" maxlength="2000"></textarea>
+                        </label>
+
+                        <button id="submitBooking" class="button" type="submit" disabled>Создать запись</button>
+                    </fieldset>
+                </form>
+
+                <p id="bookingStatus" class="status" role="status" aria-live="polite"></p>
+
+                <div id="uncertainActions" hidden>
+                    <p>Сначала откройте кабинет и проверьте, появилась ли запись. Не отправляйте её повторно только из-за отсутствия ответа.</p>
+                    <a id="reviewBookings" class="button secondary" target="_blank" rel="noopener noreferrer">Проверить мои записи</a>
+                    <button id="allowRetry" class="button secondary" type="button">Я проверил результат</button>
+                </div>
+            </div>
+        </section>
+        
+
+        
+        <section class="section">
+            <a class="button" href="#booking">Записаться</a>
+        </section>
+        
+    </div>
+</main>
+
+<footer>
+    Хочу ресницы
+</footer>
+
+<script>
+    "use strict";
+
+    // ==== Конфигурация из шаблона ====
+    const SITE_ID = "razrabotka-22";
+    const SERVER_URL = "https://api.generator-beloretsk.ru";
+
+    // ==== Хелперы ====
+    const $ = (id) => document.getElementById(id);
+    const apiBase = () => (SERVER_URL || '').replace(/\/+$/, '');
+
+    async function apiFetch(path, options = {}) {
+        const url = apiBase() + path;
+        const res = await fetch(url, {
+            credentials: 'include',
+            headers: { 'Content-Type': 'application/json', ...(options.headers || {}) },
+            ...options,
+        });
+        return res;
+    }
+
+    function setStatus(el, text, kind) {
+        if (!el) return;
+        el.textContent = text || '';
+        el.classList.remove('error', 'success');
+        if (kind === 'error') el.classList.add('error');
+        if (kind === 'success') el.classList.add('success');
+    }
+
+    // ==== Состояние ====
+    const state = {
+        profile: null,
+        masters: [],
+        services: [],
+        selectedSlot: null,
+        submitting: false,
+        uncertain: false,
+    };
+
+    // ==== Ссылки входа/регистрации ====
+    function initAuthLinks() {
+        const login = $('loginLink');
+        const register = $('registerLink');
+        const account = $('accountLink');
+        const check = $('checkProfile');
+
+        const q = `?site_id=${encodeURIComponent(SITE_ID)}`;
+        if (login) { login.href = `${apiBase()}/login${q}`; login.hidden = false; }
+        if (register) { register.href = `${apiBase()}/register${q}`; register.hidden = false; }
+        if (account) { account.href = `${apiBase()}/account${q}`; }
+        if (check) { check.disabled = false; }
+    }
+
+    // ==== Проверка профиля ====
+    async function checkProfile() {
+        const status = $('profileStatus');
+        setStatus(status, 'Проверяем вход…');
+        try {
+            const res = await apiFetch(`/api/me?site_id=${encodeURIComponent(SITE_ID)}`);
+            if (!res.ok) throw new Error(`HTTP ${res.status}`);
+            const data = await res.json();
+            if (!data || !data.email) {
+                setStatus(status, 'Вы не вошли. Нажмите «Войти» или «Зарегистрироваться».');
+                return false;
+            }
+            state.profile = data;
+            const emailField = $('email');
+            if (emailField) emailField.value = data.email || '';
+            const nameField = $('name');
+            if (nameField && !nameField.value) nameField.value = data.name || '';
+            const phoneField = $('phone');
+            if (phoneField && !phoneField.value) phoneField.value = data.phone || '';
+
+            const account = $('accountLink');
+            if (account) account.hidden = false;
+
+            setStatus(status, `Вы вошли как ${data.email}`, 'success');
+            const fields = $('bookingFields');
+            if (fields) fields.disabled = false;
+            await loadMasters();
+            return true;
+        } catch (err) {
+            setStatus(status, 'Не удалось проверить вход: ' + err.message, 'error');
+            return false;
+        }
+    }
+
+    // ==== Мастера ====
+    async function loadMasters() {
+        const select = $('master');
+        if (!select) return;
+        try {
+            const res = await apiFetch(`/api/masters?site_id=${encodeURIComponent(SITE_ID)}`);
+            if (!res.ok) throw new Error(`HTTP ${res.status}`);
+            const list = await res.json();
+            state.masters = Array.isArray(list) ? list : (list.items || []);
+            select.innerHTML = '<option value="">Выберите мастера</option>';
+            for (const m of state.masters) {
+                const opt = document.createElement('option');
+                opt.value = String(m.id);
+                opt.textContent = m.name || m.title || `Мастер #${m.id}`;
+                select.appendChild(opt);
+            }
+        } catch (err) {
+            select.innerHTML = '<option value="">Не удалось загрузить мастеров</option>';
+            setStatus($('availabilityStatus'), 'Ошибка загрузки мастеров: ' + err.message, 'error');
+        }
+    }
+
+    // ==== Услуги по мастеру ====
+    async function loadServices(masterId) {
+        const select = $('service');
+        if (!select) return;
+        select.innerHTML = '<option value="">Загрузка…</option>';
+        state.services = [];
+        if (!masterId) {
+            select.innerHTML = '<option value="">Сначала выберите мастера</option>';
+            return;
+        }
+        try {
+            const res = await apiFetch(
+                `/api/services?site_id=${encodeURIComponent(SITE_ID)}&master_id=${encodeURIComponent(masterId)}`
+            );
+            if (!res.ok) throw new Error(`HTTP ${res.status}`);
+            const list = await res.json();
+            state.services = Array.isArray(list) ? list : (list.items || []);
+            select.innerHTML = '<option value="">Выберите услугу</option>';
+            for (const s of state.services) {
+                const opt = document.createElement('option');
+                opt.value = String(s.id);
+                const price = s.price ? ` — ${s.price}` : '';
+                opt.textContent = `${s.name || 'Услуга' + price}`;
+                select.appendChild(opt);
+            }
+        } catch (err) {
+            select.innerHTML = '<option value="">Ошибка загрузки услуг</option>';
+            setStatus($('availabilityStatus'), 'Ошибка загрузки услуг: ' + err.message, 'error');
+        }
+    }
+
+    // ==== Слоты ====
+    function resetSlots() {
+        state.selectedSlot = null;
+        const container = $('slots');
+        if (container) container.innerHTML = '';
+        const sel = $('selectedSlot');
+        if (sel) sel.textContent = '';
+        const submit = $('submitBooking');
+        if (submit) submit.disabled = true;
+    }
+
+    async function refreshSlots() {
+        resetSlots();
+        const status = $('availabilityStatus');
+        const master = $('master')?.value;
+        const service = $('service')?.value;
+        const date = $('date')?.value;
+        if (!master || !service || !date) {
+            setStatus(status, 'Выберите мастера, услугу и дату.');
+            return;
+        }
+        setStatus(status, 'Загружаем свободное время…');
+        try {
+            const params = new URLSearchParams({
+                site_id: SITE_ID,
+                master_id: master,
+                service_id: service,
+                date: date,
+            });
+            const res = await apiFetch(`/api/slots?${params.toString()}`);
+            if (!res.ok) throw new Error(`HTTP ${res.status}`);
+            const list = await res.json();
+            const slots = Array.isArray(list) ? list : (list.items || []);
+            const container = $('slots');
+            container.innerHTML = '';
+            if (!slots.length) {
+                setStatus(status, 'На эту дату свободного времени нет.');
+                return;
+            }
+            for (const s of slots) {
+                const value = typeof s === 'string' ? s : (s.time || s.start || s.value);
+                if (!value) continue;
+                const btn = document.createElement('button');
+                btn.type = 'button';
+                btn.className = 'slot';
+                btn.textContent = value;
+                btn.setAttribute('aria-pressed', 'false');
+                btn.addEventListener('click', () => selectSlot(btn, value));
+                container.appendChild(btn);
+            }
+            setStatus(status, `Найдено слотов: ${slots.length}`, 'success');
+        } catch (err) {
+            setStatus(status, 'Ошибка загрузки слотов: ' + err.message, 'error');
+        }
+    }
+
+    function selectSlot(btn, value) {
+        document.querySelectorAll('.slot').forEach((b) => b.setAttribute('aria-pressed', 'false'));
+        btn.setAttribute('aria-pressed', 'true');
+        state.selectedSlot = value;
+        const sel = $('selectedSlot');
+        if (sel) sel.textContent = `Выбрано время: ${value}`;
+        const submit = $('submitBooking');
+        if (submit) submit.disabled = false;
+    }
+
+    // ==== Отправка записи ====
+    async function submitBooking(ev) {
+        ev.preventDefault();
+        if (state.submitting || state.uncertain) return;
+        const status = $('bookingStatus');
+        const payload = {
+            site_id: SITE_ID,
+            master_id: $('master')?.value,
+            service_id: $('service')?.value,
+            date: $('date')?.value,
+            time: state.selectedSlot,
+            name: $('name')?.value?.trim(),
+            phone: $('phone')?.value?.trim(),
+            comment: $('comment')?.value?.trim() || '',
+        };
+        if (!payload.master_id || !payload.service_id || !payload.date || !payload.time) {
+            setStatus(status, 'Заполните мастера, услугу, дату и время.', 'error');
+            return;
+        }
+        if (!payload.name || !payload.phone) {
+            setStatus(status, 'Укажите имя и телефон.', 'error');
+            return;
+        }
+
+        state.submitting = true;
+        const submitBtn = $('submitBooking');
+        if (submitBtn) submitBtn.disabled = true;
+        setStatus(status, 'Отправляем запись…');
+
+        try {
+            const res = await apiFetch(`/api/bookings`, {
+                method: 'POST',
+                body: JSON.stringify(payload),
+            });
+            if (res.status === 401) {
+                setStatus(status, 'Нужно войти в аккаунт.', 'error');
+                showUncertain();
+                return;
+            }
+            if (!res.ok) {
+                let detail = `HTTP ${res.status}`;
+                try { const j = await res.json(); detail = j.detail || j.message || detail; } catch (_) {}
+                throw new Error(detail);
+            }
+            const data = await res.json().catch(() => ({}));
+            setStatus(status, `Запись создана${data.id ? ' #' + data.id : ''}.`, 'success');
+            resetSlots();
+            await refreshSlots();
+        } catch (err) {
+            setStatus(status, 'Не удалось создать запись: ' + err.message, 'error');
+            showUncertain();
+        } finally {
+            state.submitting = false;
+            if (submitBtn && state.selectedSlot) submitBtn.disabled = false;
+        }
+    }
+
+    function showUncertain() {
+        state.uncertain = true;
+        const box = $('uncertainActions');
+        if (box) box.hidden = false;
+        const review = $('reviewBookings');
+        if (review) review.href = `${apiBase()}/account?site_id=${encodeURIComponent(SITE_ID)}`;
+        const submit = $('submitBooking');
+        if (submit) submit.disabled = true;
+    }
+
+    function allowRetry() {
+        state.uncertain = false;
+        const box = $('uncertainActions');
+        if (box) box.hidden = true;
+        const submit = $('submitBooking');
+        if (submit && state.selectedSlot) submit.disabled = false;
+    }
+
+    // ==== Инициализация ====
+    function init() {
+        if (!SITE_ID) {
+            setStatus($('profileStatus'), 'Не задан site_id — форма записи недоступна.', 'error');
+            return;
+        }
+        initAuthLinks();
+
+        $('checkProfile')?.addEventListener('click', checkProfile);
+        $('master')?.addEventListener('change', (e) => {
+            resetSlots();
+            loadServices(e.target.value);
+        });
+        $('service')?.addEventListener('change', resetSlots);
+        $('date')?.addEventListener('change', resetSlots);
+        $('refreshSlots')?.addEventListener('click', refreshSlots);
+        $('bookingForm')?.addEventListener('submit', submitBooking);
+        $('allowRetry')?.addEventListener('click', allowRetry);
+
+        // Автопроверка профиля (не критично, если не удастся)
+        checkProfile().catch(() => {});
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+    } else {
+        init();
+    }
+</script>
+</body>
+</html>
